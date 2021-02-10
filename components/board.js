@@ -7,8 +7,13 @@ export default function Board({title, cards}){
     return(
         <div className={styles.col}>
             <h1>{title}</h1>
-            <Card link='https://lichess.org/574849' player1='hi' player2='hi'></Card>
-            <Card></Card>
+            {cards.map(c => {
+                <Card
+                    link={c.id}
+                    player1={c.players}
+                    player2={c.players}
+                />
+            })}
         </div>
     )
 }

@@ -97,11 +97,15 @@
   overflow: hidden;
 }
 
+.card a{
+  color: #0070f3;
+}
+
 .card:hover,
 .card:focus,
 .card:active {
-  color: #0070f3;
-  border-color: #0070f3;
+  color: #3a3a3a;
+  border-color: #3a3a3a;
 }
 
 .card h3 {
