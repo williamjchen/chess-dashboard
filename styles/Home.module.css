@@ -91,7 +91,7 @@
   text-align: left;
   color: inherit;
   text-decoration: none;
-  border: 1px solid #eaeaea;
+  border: 4px solid #eaeaea;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
   overflow: hidden;
@@ -110,13 +110,47 @@
 
 .card h3 {
   margin: 0 0 1rem 0;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 
 .card p {
   margin: 0;
   font-size: 1.25rem;
   line-height: 1.5;
+}
+
+.button {
+  width: 30%;
+  margin-top: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 4rem;
+  padding: 0.5rem;
+  color: inherit;
+  text-decoration: none;
+  background-color: white;
+  border: 4px solid #0070f3;
+  color: #0070f3;
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  overflow: hidden;
+  text-align: center;
+}
+
+.button:hover,
+.button:focus,
+.button:active {
+  outline:none;
+}
+
+.button:hover{
+  color: #003169;
+  border-color: #003169;
+}
+
+.button h3 {
+  margin: 0;
+  font-size: 1.5rem;
 }
 
 .logo {
@@ -139,6 +173,31 @@
   content: "";
   display: table;
   clear: both;
+}
+
+.input {
+  font-size: 24px;
+  height: 4rem;
+  width: 59%;
+  border-radius: 10px;
+  box-sizing: border-box;
+  border: 4px solid #0070f3;
+  text-align: center;
+  caret-color: #0070f3;
+  user-select: initial;
+}
+
+.input::placeholder{
+  color: #0070f3;
+  opacity: 50%
+}
+
+.input:focus::placeholder{
+  color:transparent;
+}
+
+.input:focus{
+  outline:none;
 }
 
 @media (max-width: 600px) {

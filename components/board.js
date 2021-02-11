@@ -7,12 +7,13 @@ export default function Board({title, cards}){
     return(
         <div className={styles.col}>
             <h1>{title}</h1>
-            {cards.map(c => {
-                <Card
-                    link={c.id}
-                    player1={c.players}
-                    player2={c.players}
-                />
+            {cards.map((c, index) => {
+                return(<Card
+                    link={c.link}
+                    key={index}
+                    player1={c.white}
+                    player2={c.black}
+                />)
             })}
         </div>
     )

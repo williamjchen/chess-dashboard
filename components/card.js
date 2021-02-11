@@ -4,7 +4,7 @@ export default function Card({link, player1, player2}){
     return (
         <div className={styles.card}>
             <a href={link} target='blank'><h3>{link}</h3></a>
-            <ul>
+            <ul style={{listStyle:'none'}}>
                 <li>{player1}</li>
                 <li>{player2}</li>
             </ul>
