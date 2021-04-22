@@ -7,8 +7,10 @@ import styles from '../styles/Home.module.css'
 import { useEffect, useState } from 'react'
 import React from 'react'
 import axios from 'axios'
-const Game = require('../components/game')
+import io from 'socket.io-client'
 
+const Game = require('../components/game')
+const socket = io('http://localhost:8080')
 
 export default function main() {
 
@@ -39,6 +41,9 @@ export default function main() {
     }
 
     useEffect(() => {
+        socket.on('thing', () => {
+            consol
+        })
         setInterval(() => {
             join.map( c => {
                 //console.log(c.link)
@@ -65,6 +70,24 @@ export default function main() {
             })
         }, 5000)
     })
+
+    const sendNew = (link) => {
+        socket.emit('new', link)
+    }
+
+    socket.on('connectoin', socket => {
+        socket.on('join', code => {
+            console.log('connected')
+        })
+
+        socket.on('UpdateGames', data => {
+            const {join, spec, end} = JSON.parse(data)
+            setJoin(join)
+            setSpec(spec)
+            setEnd(end)
+        })
+    })
+
     return (
         <div className={styles.container}>
             <Head>
@@ -74,7 +97,7 @@ export default function main() {
             <main className={styles.main}>
                 <div className={styles.boardContainer}>
                     <div className={styles.row}>
-                        <NewBoard title='Join Game' cards={join} addCard={setJoin}/>
+                        <NewBoard title='Join Game' cards={join} addCard={setJoin} sendNew={sendNew}/>
                         <Board title='Spectate Game' cards={spec}/>
                         <Board title='Past Games' cards={end}/>
                     </div>

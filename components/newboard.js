@@ -5,7 +5,7 @@ import {useState} from 'react'
 import axios from 'axios'
 
 
-export default function Board({title, cards, addCard}){
+export default function Board({title, cards, addCard, sendNew}){
 
     const [value, setValue] = useState('')
 
@@ -14,6 +14,7 @@ export default function Board({title, cards, addCard}){
         if(value.includes('https://lichess.org/') && cards.filter(c => c.link === value).length === 0){
             const card = new Game(value)
             addCard(cards.concat(card))
+            sendNew(value)
         }
         setValue('')
     }
