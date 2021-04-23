@@ -13,4 +13,10 @@ module.exports = class Game{
         this.black = json.players.black.user.id
         this.white = json.players.white.user.id
     }
+
+    update(id, black, white){
+        this.id = id
+        this.black = black
+        this.white = white
+    }
 }

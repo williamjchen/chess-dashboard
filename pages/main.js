@@ -21,9 +21,9 @@ export default function main() {
 
     const fetchGame = async (gameId) => {
         try {
-            //console.log('here')
+            console.log('here')
             const { data } = await axios.get(`https://lichess.org/game/export/${gameId}`, { headers: { 'Accept': 'application/json' } })
-            //console.log(data)
+            console.log(data)
             return JSON.stringify(data)
         } catch (err) {
             console.error(err)
@@ -40,52 +40,80 @@ export default function main() {
         return {a: sourceClone, b: destinationClone}
     }
 
+    const addGame = event => {
+        if(value.includes('https://lichess.org/') && cards.filter(c => c.link === value).length === 0){
+            const card = new Game(value)
+            return card
+        }
+    }
+
     useEffect(() => {
-        socket.on('thing', () => {
-            consol
-        })
-        setInterval(() => {
-            join.map( c => {
-                //console.log(c.link)
-                //console.log(c.id)
-                fetchGame(c.id).then((data) => {
-                    const obj = JSON.parse(data)
-                    if(obj.status === 'started'){
-                        c.updateJson(obj)
-                        let {a, b} = moveGame(join, spec, c)
-                        setJoin(a)
-                        setSpec(b)
-                    }
-                })
-            })
-            spec.map( c => {
-                fetchGame(c.id).then((data) => {
-                    const obj = JSON.parse(data)
-                    if(obj.status !== 'started'){
-                        let {a, b} = moveGame(spec, end, c)
-                        setSpec(a)
-                        setEnd(b)
-                    }
-                })
-            })
-        }, 5000)
+        // setInterval(() => {
+        //     join.map( c => {
+        //         //console.log(c.link)
+        //         //console.log(c.id)
+        //         fetchGame(c.id).then((data) => {
+        //             const obj = JSON.parse(data)
+        //             if(obj.status === 'started'){
+        //                 console.log('started')
+        //                 c.updateJson(obj)
+        //                 let {a, b} = moveGame(join, spec, c)
+        //                 setJoin(a)
+        //                 setSpec(b)
+        //             }
+        //         })
+        //     })
+        //     spec.map( c => {
+        //         fetchGame(c.id).then((data) => {
+        //             const obj = JSON.parse(data)
+        //             if(obj.status !== 'started'){
+        //                 let {a, b} = moveGame(spec, end, c)
+        //                 setSpec(a)
+        //                 setEnd(b)
+        //             }
+        //         })
+        //     })
+        // }, 5000)
     })
 
     const sendNew = (link) => {
         socket.emit('new', link)
     }
 
-    socket.on('connectoin', socket => {
-        socket.on('join', code => {
-            console.log('connected')
-        })
+    socket.on('connect', socket => {
+        console.log('connected')
+    })
 
-        socket.on('UpdateGames', data => {
-            const {join, spec, end} = JSON.parse(data)
-            setJoin(join)
-            setSpec(spec)
-            setEnd(end)
+    socket.on('UpdateGames', data => {
+        const {j, s, e} = JSON.parse(data)
+
+        let temp = []
+        j.map( i => {
+            temp.push(new Game(i.link))
+            temp[temp.length -1].update(i.id, i.black, i.white)
         })
+        setJoin(temp)
+        temp = []
+
+
+        s.map(i => {
+            temp.push(new Game(i.link))
+            temp[temp.length -1].update(i.id, i.black, i.white)
+        })
+        setSpec(temp)
+        temp = []
+
+
+        e.map(i => {
+            temp.push(new Game(i.link))
+            temp[temp.length -1].update(i.id, i.black, i.white)
+        })
+        setEnd(temp)
+        temp = []
+
+        // setJoin(join)
+        // setSpec(spec)
+        // setEnd(end)
     })
 
     return (
