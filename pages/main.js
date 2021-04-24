@@ -4,9 +4,8 @@ import Card from '../components/card'
 import Board from '../components/board'
 import NewBoard from '../components/newboard'
 import styles from '../styles/Home.module.css'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import React from 'react'
-import axios from 'axios'
 import io from 'socket.io-client'
 
 const Game = require('../components/game')
