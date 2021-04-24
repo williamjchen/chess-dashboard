@@ -18,64 +18,6 @@ export default function main() {
     const [spec, setSpec] = useState([])
     const [end, setEnd] = useState([])
 
-
-    const fetchGame = async (gameId) => {
-        try {
-            console.log('here')
-            const { data } = await axios.get(`https://lichess.org/game/export/${gameId}`, { headers: { 'Accept': 'application/json' } })
-            console.log(data)
-            return JSON.stringify(data)
-        } catch (err) {
-            console.error(err)
-        }
-    }
-
-    const moveGame = (source, destination, item) => {
-        let sourceClone = [...source]
-        let destinationClone = [...destination]
-
-        sourceClone = sourceClone.filter(i => i.id !== item.id)
-        destinationClone.unshift(item) 
-
-        return {a: sourceClone, b: destinationClone}
-    }
-
-    const addGame = event => {
-        if(value.includes('https://lichess.org/') && cards.filter(c => c.link === value).length === 0){
-            const card = new Game(value)
-            return card
-        }
-    }
-
-    // useEffect(() => {
-    //     // setInterval(() => {
-    //     //     join.map( c => {
-    //     //         //console.log(c.link)
-    //     //         //console.log(c.id)
-    //     //         fetchGame(c.id).then((data) => {
-    //     //             const obj = JSON.parse(data)
-    //     //             if(obj.status === 'started'){
-    //     //                 console.log('started')
-    //     //                 c.updateJson(obj)
-    //     //                 let {a, b} = moveGame(join, spec, c)
-    //     //                 setJoin(a)
-    //     //                 setSpec(b)
-    //     //             }
-    //     //         })
-    //     //     })
-    //     //     spec.map( c => {
-    //     //         fetchGame(c.id).then((data) => {
-    //     //             const obj = JSON.parse(data)
-    //     //             if(obj.status !== 'started'){
-    //     //                 let {a, b} = moveGame(spec, end, c)
-    //     //                 setSpec(a)
-    //     //                 setEnd(b)
-    //     //             }
-    //     //         })
-    //     //     })
-    //     // }, 5000)
-    // })
-
     const sendNew = (link) => {
         socket.emit('new', link)
     }
@@ -89,9 +31,7 @@ export default function main() {
 
         let temp = []
         j.map( item => {
-            console.log(j)
             temp.push(new Game(item))
-            //temp[temp.length -1].update(i.id, i.black, i.white)
         })
         setJoin(temp)
 
@@ -99,7 +39,6 @@ export default function main() {
         temp = []
         s.map(item => {
             temp.push(new Game(item))
-            //temp[temp.length -1].update(i.id, i.black, i.white)
         })
         setSpec(temp)
 
@@ -107,13 +46,8 @@ export default function main() {
         temp = []
         e.map(item => {
             temp.push(new Game(item))
-            //temp[temp.length -1].update(i.id, i.black, i.white)
         })
         setEnd(temp)
-
-        // setJoin(join)
-        // setSpec(spec)
-        // setEnd(end)
     })
 
     return (
