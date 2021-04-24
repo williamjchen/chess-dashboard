@@ -1,10 +1,10 @@
 module.exports = class Game{
-    constructor(link){
-        this.link = link
-        this.id = link.slice(20, 28)
+    constructor(obj){
+        this.link = obj.link
+        this.id = this.link.slice(20, 28)
         this.date
-        this.white = 'Anonymous'
-        this.black = 'Anonymous'
+        this.white = obj.white? obj.white : 'Anonymous'
+        this.black = obj.black? obj.black: 'Anonymous'
     }
 
     updateJson(json){

@@ -47,34 +47,34 @@ export default function main() {
         }
     }
 
-    useEffect(() => {
-        // setInterval(() => {
-        //     join.map( c => {
-        //         //console.log(c.link)
-        //         //console.log(c.id)
-        //         fetchGame(c.id).then((data) => {
-        //             const obj = JSON.parse(data)
-        //             if(obj.status === 'started'){
-        //                 console.log('started')
-        //                 c.updateJson(obj)
-        //                 let {a, b} = moveGame(join, spec, c)
-        //                 setJoin(a)
-        //                 setSpec(b)
-        //             }
-        //         })
-        //     })
-        //     spec.map( c => {
-        //         fetchGame(c.id).then((data) => {
-        //             const obj = JSON.parse(data)
-        //             if(obj.status !== 'started'){
-        //                 let {a, b} = moveGame(spec, end, c)
-        //                 setSpec(a)
-        //                 setEnd(b)
-        //             }
-        //         })
-        //     })
-        // }, 5000)
-    })
+    // useEffect(() => {
+    //     // setInterval(() => {
+    //     //     join.map( c => {
+    //     //         //console.log(c.link)
+    //     //         //console.log(c.id)
+    //     //         fetchGame(c.id).then((data) => {
+    //     //             const obj = JSON.parse(data)
+    //     //             if(obj.status === 'started'){
+    //     //                 console.log('started')
+    //     //                 c.updateJson(obj)
+    //     //                 let {a, b} = moveGame(join, spec, c)
+    //     //                 setJoin(a)
+    //     //                 setSpec(b)
+    //     //             }
+    //     //         })
+    //     //     })
+    //     //     spec.map( c => {
+    //     //         fetchGame(c.id).then((data) => {
+    //     //             const obj = JSON.parse(data)
+    //     //             if(obj.status !== 'started'){
+    //     //                 let {a, b} = moveGame(spec, end, c)
+    //     //                 setSpec(a)
+    //     //                 setEnd(b)
+    //     //             }
+    //     //         })
+    //     //     })
+    //     // }, 5000)
+    // })
 
     const sendNew = (link) => {
         socket.emit('new', link)
@@ -88,28 +88,28 @@ export default function main() {
         const {j, s, e} = JSON.parse(data)
 
         let temp = []
-        j.map( i => {
-            temp.push(new Game(i.link))
-            temp[temp.length -1].update(i.id, i.black, i.white)
+        j.map( item => {
+            console.log(j)
+            temp.push(new Game(item))
+            //temp[temp.length -1].update(i.id, i.black, i.white)
         })
         setJoin(temp)
+
+
         temp = []
-
-
-        s.map(i => {
-            temp.push(new Game(i.link))
-            temp[temp.length -1].update(i.id, i.black, i.white)
+        s.map(item => {
+            temp.push(new Game(item))
+            //temp[temp.length -1].update(i.id, i.black, i.white)
         })
         setSpec(temp)
+
+
         temp = []
-
-
-        e.map(i => {
-            temp.push(new Game(i.link))
-            temp[temp.length -1].update(i.id, i.black, i.white)
+        e.map(item => {
+            temp.push(new Game(item))
+            //temp[temp.length -1].update(i.id, i.black, i.white)
         })
         setEnd(temp)
-        temp = []
 
         // setJoin(join)
         // setSpec(spec)

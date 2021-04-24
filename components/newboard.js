@@ -12,8 +12,8 @@ export default function Board({title, cards, addCard, sendNew}){
     const addGame = event => {
         event.preventDefault();
         if(value.includes('https://lichess.org/') && cards.filter(c => c.link === value).length === 0){
-            const card = new Game(value)
-            addCard(cards.concat(card))
+            //const card = new Game(value)
+            //addCard(cards.concat(card))
             sendNew(value)
         }
         setValue('')
