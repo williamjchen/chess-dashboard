@@ -5,7 +5,7 @@ import {useState} from 'react'
 import axios from 'axios'
 
 
-export default function Board({title, cards, addCard, sendNew}){
+export default function Board({title, cards, sendNew}){
 
     const [value, setValue] = useState('')
 

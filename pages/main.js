@@ -27,26 +27,14 @@ export default function main() {
 
     socket.on('UpdateGames', data => {
         const {j, s, e} = JSON.parse(data)
+        //updateLists(j, s, e)
+        console.log("RECEIVE")
 
-        let temp = []
-        j.map( item => {
-            temp.push(new Game(item))
-        })
-        setJoin(temp)
+        setJoin(j.map(item => new Game(item)))
 
+        setSpec(s.map(item => new Game(item)))
 
-        temp = []
-        s.map(item => {
-            temp.push(new Game(item))
-        })
-        setSpec(temp)
-
-
-        temp = []
-        e.map(item => {
-            temp.push(new Game(item))
-        })
-        setEnd(temp)
+        setEnd(e.map(item => new Game(item)))
     })
 
     return (
