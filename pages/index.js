@@ -9,7 +9,9 @@ import React from 'react'
 import io from 'socket.io-client'
 
 const Game = require('../components/game')
-const socket = io('http://localhost:8080')
+console.log(process.env.HOST)
+const socket = io(process.env.HOST || 'http://localhost:8080')
+
 
 export default function Home() {
 
@@ -28,8 +30,6 @@ export default function Home() {
     
         socket.on('UpdateGames', data => {
             const {j, s, e} = JSON.parse(data)
-
-            console.log("RECEIVE")
     
             setJoin(j.map(item => new Game(item)))
     
