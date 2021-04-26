@@ -1,65 +1,62 @@
 import Head from 'next/head'
+import Link from 'next/link'
+import Card from '../components/card'
+import Board from '../components/board'
+import NewBoard from '../components/newboard'
 import styles from '../styles/Home.module.css'
+import { useEffect, useState } from 'react'
+import React from 'react'
+import io from 'socket.io-client'
+
+const Game = require('../components/game')
+const socket = io('http://localhost:8080')
 
 export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Learn <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+    const [join, setJoin] = useState([])
+    const [spec, setSpec] = useState([])
+    const [end, setEnd] = useState([])
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+    const sendNew = (link) => {
+        socket.emit('new', link)
+    }
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+    useEffect(() => {
+        socket.on('connect', socket => {
+            console.log('connected')
+        })
+    
+        socket.on('UpdateGames', data => {
+            const {j, s, e} = JSON.parse(data)
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
+            console.log("RECEIVE")
+    
+            setJoin(j.map(item => new Game(item)))
+    
+            setSpec(s.map(item => new Game(item)))
+    
+            setEnd(e.map(item => new Game(item)))
+        })
+        
 
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+        return () => socket.off('UpdateGames', listener)
+    }, [])
 
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+    return (
+        <div className={styles.container}>
+            <Head>
+                <title>Chess</title>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+            <main className={styles.main}>
+                <div className={styles.boardContainer}>
+                    <div className={styles.row}>
+                        <NewBoard title='Join Game' cards={join} addCard={setJoin} sendNew={sendNew}/>
+                        <Board title='Spectate Game' cards={spec}/>
+                        <Board title='Past Games' cards={end}/>
+                    </div>
+                </div>
+            </main>
         </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+    )
 }
