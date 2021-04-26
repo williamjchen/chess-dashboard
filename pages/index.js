@@ -9,8 +9,7 @@ import React from 'react'
 import io from 'socket.io-client'
 
 const Game = require('../components/game')
-console.log(process.env.HOST)
-const socket = io(process.env.HOST || 'http://localhost:8080')
+const socket = io(process.env.NEXT_PUBLIC_HOST)
 
 
 export default function Home() {
