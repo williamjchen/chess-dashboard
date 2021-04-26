@@ -4,7 +4,7 @@ import Card from '../components/card'
 import Board from '../components/board'
 import NewBoard from '../components/newboard'
 import styles from '../styles/Home.module.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import React from 'react'
 import io from 'socket.io-client'
 
@@ -21,21 +21,26 @@ export default function main() {
         socket.emit('new', link)
     }
 
-    socket.on('connect', socket => {
-        console.log('connected')
-    })
+    useEffect(() => {
+        socket.on('connect', socket => {
+            console.log('connected')
+        })
+    
+        socket.on('UpdateGames', data => {
+            const {j, s, e} = JSON.parse(data)
 
-    socket.on('UpdateGames', data => {
-        const {j, s, e} = JSON.parse(data)
-        //updateLists(j, s, e)
-        console.log("RECEIVE")
+            console.log("RECEIVE")
+    
+            setJoin(j.map(item => new Game(item)))
+    
+            setSpec(s.map(item => new Game(item)))
+    
+            setEnd(e.map(item => new Game(item)))
+        })
+        
 
-        setJoin(j.map(item => new Game(item)))
-
-        setSpec(s.map(item => new Game(item)))
-
-        setEnd(e.map(item => new Game(item)))
-    })
+        return () => socket.off('UpdateGames', listener)
+    }, [])
 
     return (
         <div className={styles.container}>
